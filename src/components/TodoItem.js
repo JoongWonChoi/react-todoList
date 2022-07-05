@@ -2,7 +2,7 @@ import React from "react";
 import {MdCheckBox, MdCheckBoxOutlineBlank} from 'react-icons/md'
 import "./TodoItem.css";
 
-function TodoItem({ todo, onCheckToggle }){ //TodoList에서 todo 객체를 받아옴
+function TodoItem({ todo, onCheckToggle, onInsertToggle, onChangeSelectedTodo }){ //TodoList에서 todo 객체를 받아옴
     //TodoList컴포넌트에서 map함수를 통해 todos의 배열을 반복적으로 분해하여 TodoItem으로 전달
     const { id, text, checked } = todo; //객체 구조 분해를 통해 todo 객체에서 text를 가져옴
 
@@ -26,7 +26,14 @@ function TodoItem({ todo, onCheckToggle }){ //TodoList에서 todo 객체를 받�
                         />
                      )
                     }
-                <div className="text">{text}</div>
+                <div className="text" 
+                    onClick={() => {
+                        onChangeSelectedTodo(todo)
+                        onInsertToggle();
+                    }}
+                    >
+                        {text}
+                    </div>
             </div>
         </div>
     );

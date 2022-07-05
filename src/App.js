@@ -25,6 +25,8 @@ function App() {
   //     const obj2 = {...obj1};
   // ex) (...todos, todos[0].text) 와 같은 형식으로 사용 가능 ==> todos 객체 배열 복사, 복사된 todos의 0번째 배열의 'text'값
 
+  const [selectedTodo, setSelectedTodo] = useState(null);
+
   const [insertToggle, setInsertToggle] = useState(false);
   
   const [todos, setTodos] = useState([
@@ -34,6 +36,9 @@ function App() {
   ]);
 
   const onInsertToggle = () => {
+    if(selectedTodo){
+      setSelectedTodo(null);
+    }
     setInsertToggle(prev => !prev); //useState의 함수형 업데이트 // setInsertToggle( => );
   };
 
@@ -66,6 +71,16 @@ function App() {
       );
   };
 
+  const onChangeSelectedTodo = (todo) => {
+    setSelectedTodo(todo);
+  };
+
+  const onDelete = (id) => {
+    setTodos( 
+      todos.filter( todo => todo.id !== id)
+    );
+  }
+
   return (
     // * Template 컴포넌트 : 제목과 전체 배경을 구성
     // * TodoList 컴포넌트 : 할 일 리스트 배경
@@ -74,7 +89,12 @@ function App() {
 
     //Template태그 사이에 있는 요소들이 children으로 Template 컴포넌트에 전달됨.
     <Template todoLength={todos.length}>
-      <TodoList todos={todos} onCheckToggle={onCheckToggle} />
+      <TodoList 
+        todos={todos} 
+        onCheckToggle={onCheckToggle} 
+        onInsertToggle={onInsertToggle}
+        onChangeSelectedTodo={onChangeSelectedTodo}
+        />
         {/* TodoList 컴포넌트에 props로 ' todos : {todos(미리 state로 지정해놓은 todo 배열)} '전달 */}
         {/* + props로 'onCheckToggle : onCheckToggle(함수)' 전달 */}
       
@@ -86,6 +106,9 @@ function App() {
       </div>
       {insertToggle && //조건부 렌더링 ==> { A && B } // A:조건, B:표현 // 조건(A)이 true이면 표현(B) 사용
         <TodoInsert 
+          onChangeSelectedTodo={onChangeSelectedTodo}
+          onDelete={onDelete}
+          selectedTodo={selectedTodo}
           onInsertToggle={onInsertToggle}
           onInsertTodo={onInsertTodo}
           />}
