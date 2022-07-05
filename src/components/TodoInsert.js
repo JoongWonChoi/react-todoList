@@ -19,6 +19,7 @@ function TodoInsert({onInsertToggle, onInsertTodo}){
     return(
         <div>
             <div className="background" onClick={onInsertToggle}></div>
+            {/* 배경(background) 클릭 시(onClick) => onInsertToggle 함수 발생  */}
             <form onSubmit={onSubmit}>
                 <input placeholder="what to do?" value={value} onChange={onChange}></input>
                 <button type="submit">
