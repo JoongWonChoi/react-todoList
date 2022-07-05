@@ -3,7 +3,7 @@ import "./TodoInsert.css";
 import { MdAddCircle } from "react-icons/md";
 import { TiTrash, TiPencil} from "react-icons/ti";
 
-function TodoInsert({onInsertToggle, onInsertTodo, selectedTodo, onDelete, onChangeSelectedTodo}){
+function TodoInsert({onInsertToggle, onInsertTodo, selectedTodo, onDelete, onUpdate}){
     const [value, setValue] = useState("");
 
     const onChange = (e) => { //해당 event 객체가 생성된 곳에서의 target
@@ -32,16 +32,19 @@ function TodoInsert({onInsertToggle, onInsertTodo, selectedTodo, onDelete, onCha
                     }}>
             </div>
             {/* 배경(background) 클릭 시(onClick) => onInsertToggle 함수 발생  */}
-            <form onSubmit={onSubmit}>
+            <form onSubmit={ selectedTodo ? (()=>{onUpdate(selectedTodo.id, value);}) : (onSubmit)}>
                 <input placeholder="what to do?" value={value} onChange={onChange}></input>
                 { selectedTodo ? ( 
                     <div className="rewrite">
-                        <TiPencil />
+                        <TiPencil onClick={() => {
+                            alert('update item!');
+                            onUpdate(selectedTodo.id, value);
+                            }} />
                         <TiTrash onClick={() => {
                             alert('delete item!');
                             onDelete(selectedTodo.id);
                             onInsertToggle();
-                        }} />
+                            }} />
                     </div>
                 ) : (
                 <button type="submit">

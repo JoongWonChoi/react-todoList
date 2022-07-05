@@ -81,6 +81,15 @@ function App() {
     );
   }
 
+  const onUpdate =(id, text) => {
+    onInsertToggle();
+    setTodos(
+      todos =>
+        todos.map( (todo) => 
+          todo.id === id ? {...todo, text} : todo)
+    )
+  }
+
   return (
     // * Template 컴포넌트 : 제목과 전체 배경을 구성
     // * TodoList 컴포넌트 : 할 일 리스트 배경
@@ -106,6 +115,7 @@ function App() {
       </div>
       {insertToggle && //조건부 렌더링 ==> { A && B } // A:조건, B:표현 // 조건(A)이 true이면 표현(B) 사용
         <TodoInsert 
+          onUpdate = {onUpdate}
           onChangeSelectedTodo={onChangeSelectedTodo}
           onDelete={onDelete}
           selectedTodo={selectedTodo}
